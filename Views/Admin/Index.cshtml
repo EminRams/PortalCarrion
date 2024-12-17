@@ -79,6 +79,7 @@
 
 <nav class="d-flex justify-content-center align-items-center my-5">
     <form method="get" class="d-inline me-2">
+        <input type="hidden" name="searchQuery" value="@ViewBag.SearchQuery">
         <label for="pageSize">Mostrar: </label>
         <select name="pageSize" class="form-control d-inline w-auto" onchange="this.form.submit()">
             <option value="5" selected="@(ViewBag.PageSize == 5)">5</option>
@@ -91,8 +92,8 @@
     <ul class="pagination justify-content-center m-0">
         <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
             <a class="page-link @(ViewBag.CurrentPage == 1 ? "text-secondary" : "text-danger")" asp-action="Index"
-                asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-pageSize="@ViewBag.PageSize"><i
-                    class="bi bi-arrow-left"></i></a>
+                asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-pageSize="@ViewBag.PageSize"
+                asp-route-searchQuery="@ViewBag.SearchQuery"><i class="bi bi-arrow-left"></i></a>
         </li>
         @{
             int totalPages = ViewBag.TotalPages;
@@ -112,7 +113,7 @@
         {
             <li class="page-item">
                 <a class="page-link text-secondary" asp-action="Index" asp-route-page="1"
-                    asp-route-pageSize="@ViewBag.PageSize">1</a>
+                    asp-route-pageSize="@ViewBag.PageSize" asp-route-searchQuery="@ViewBag.SearchQuery">1</a>
             </li>
             <li class="page-item disabled">
                 <span class="page-link">..</span>
@@ -123,7 +124,8 @@
         {
             <li class="page-item @(currentPage == i ? "active" : "")">
                 <a class="page-link @(i == currentPage ? "bg-danger text-light" : "text-secondary")" asp-action="Index"
-                    asp-route-page="@i" asp-route-pageSize="@ViewBag.PageSize">@i</a>
+                    asp-route-page="@i" asp-route-pageSize="@ViewBag.PageSize"
+                    asp-route-searchQuery="@ViewBag.SearchQuery">@i</a>
             </li>
         }
 
@@ -134,14 +136,14 @@
             </li>
             <li class="page-item">
                 <a class="page-link text-secondary" asp-action="Index" asp-route-page="@totalPages"
-                    asp-route-pageSize="@ViewBag.PageSize">@totalPages</a>
+                    asp-route-pageSize="@ViewBag.PageSize" asp-route-searchQuery="@ViewBag.SearchQuery">@totalPages</a>
             </li>
         }
 
         <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
             <a class="page-link @(ViewBag.CurrentPage == ViewBag.TotalPages ? "text-secondary" : "text-danger")"
-                asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-pageSize="@ViewBag.PageSize"><i
-                    class="bi bi-arrow-right"></i></a>
+                asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-pageSize="@ViewBag.PageSize"
+                asp-route-searchQuery="@ViewBag.SearchQuery"><i class="bi bi-arrow-right"></i></a>
         </li>
     </ul>
 </nav>
