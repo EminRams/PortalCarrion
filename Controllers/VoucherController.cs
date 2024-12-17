@@ -31,12 +31,8 @@ namespace PortalCarrion.Controllers
                 .Select(e => e.CodigoEmp)
                 .FirstOrDefaultAsync();
 
-            // var voucherQuery = _context.ReciboPagos
-            //     .Where(o => o.RpeCodtipo == 315 && o.RpeCodemp.ToString() == codigoEmpleado.ToString())
-            //     .AsQueryable();
-
             var actualVouchers = _context.ReciboPagos
-                .Where(o => o.RpeCodtipo == 315 && o.RpeCodemp.ToString() == codigoEmpleado.ToString())
+                .Where(v => v.RpeCodtipo == 315 && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
                 .ToList();
 
             var codigoExpediente = actualVouchers
@@ -44,7 +40,7 @@ namespace PortalCarrion.Controllers
                 .FirstOrDefault();
 
             var voucherQuery = _context.ReciboPagos
-                .Where(v => v.RpeCodexp == codigoExpediente)
+                .Where(v => v.RpeCodtipo == 315 && v.RpeCodexp == codigoExpediente)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
@@ -72,7 +68,7 @@ namespace PortalCarrion.Controllers
             ViewBag.CurrentPage = page;
             ViewBag.PageSize = pageSize;
             ViewBag.TotalPages = (int)Math.Ceiling(totalVouchers / (double)pageSize);
-            
+
             return View(vouchers);
         }
 

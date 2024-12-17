@@ -65,9 +65,8 @@ namespace SolicitudEmpleos2024.Controllers
 
 					await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-					// Actualizar el último acceso NO ESTOY SEGURO EN DEJARLO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-					// user.UsrUltimoAcceso = DateTime.Now;
-					// await _context.SaveChangesAsync();
+					user.UsrUltimoAcceso = DateTime.Now;
+					await _context.SaveChangesAsync();
 
 					return RedirectToAction("Index", "Home");
 				}

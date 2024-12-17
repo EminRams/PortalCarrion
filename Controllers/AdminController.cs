@@ -1,12 +1,7 @@
-using System.Numerics;
-using System.Security.Policy;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using NuGet.Protocol;
 using PortalCarrion.Models;
 using PortalCarrion.Models.ViewModels;
 
@@ -170,6 +165,7 @@ namespace SolicitudEmpleos2024.Controllers
                 var result = command.ExecuteScalar();
                 byte[]? encryptedPassword = result as byte[];
                 existingUser.UsrPassword = encryptedPassword;
+                existingUser.UsrPassUltimoCambio = DateTime.Now;
             }
 
             existingUser.UsrUsername = model.Username;
