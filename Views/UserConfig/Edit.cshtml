@@ -1,0 +1,55 @@
+﻿@model PortalCarrion.Models.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h1>Configuración de Usuario</h1>
+
+<h4>Editar</h4>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Codigo" />
+            <div class="row">
+
+                <div class="form-group col-md-6">
+                    <label asp-for="Username" class="control-label"></label>
+                    <input disabled asp-for="Username" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input disabled asp-for="Name" class="form-control" />
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input type="password" asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="ConfirmPassword" class="control-label"></label>
+                    <input type="password" asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group pt-5">
+                <input type="submit" value="Guardar" class="btn btn-outline-warning" />
+                <a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Home">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

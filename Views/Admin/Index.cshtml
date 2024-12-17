@@ -1,0 +1,147 @@
+﻿@model IEnumerable<PortalCarrion.Models.UsrUser>
+
+@{
+    ViewData["Title"] = "Usuarios";
+}
+
+<form action="@Url.Action("Index", "Home")" method="post" class="form-inline">
+    <button type="submit" class="btn btn-outline-danger">Salir de Administrador
+        <i class="bi bi-box-arrow-right"></i>
+    </button>
+</form>
+
+<h1 class="mt-lg-3">Gestión de Usuarios</h1>
+
+<form method="get" class="my-5 d-flex gap-3">
+    <input type="text" name="searchQuery" a value="@ViewBag.SearchQuery" class="form-control" placeholder="Buscar..." />
+    <button type="submit" class="btn btn-outline-danger">Buscar</button>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-hover text-justify">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrCodigo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrUsername)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrNombreUsuario)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrActivo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UsrModoAutenticacion)
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrCodigo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrUsername)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrNombreUsuario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrActivo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UsrModoAutenticacion)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary m-1" asp-action="Details"
+                            asp-route-id="@item.UsrCodigo">Detalles</a>
+                        <a class="btn btn-outline-warning m-1" asp-action="Edit" asp-route-id="@item.UsrCodigo">Editar</a>
+                        <a class="btn btn-outline-danger m-1" asp-action="Disable"
+                            asp-route-id="@item.UsrCodigo">Desactivar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<nav class="d-flex justify-content-center align-items-center my-5">
+    <form method="get" class="d-inline me-2">
+        <label for="pageSize">Mostrar: </label>
+        <select name="pageSize" class="form-control d-inline w-auto" onchange="this.form.submit()">
+            <option value="5" selected="@(ViewBag.PageSize == 5)">5</option>
+            <option value="10" selected="@(ViewBag.PageSize == 10)">10</option>
+            <option value="50" selected="@(ViewBag.PageSize == 50)">50</option>
+            <option value="100" selected="@(ViewBag.PageSize == 100)">100</option>
+            <option value="500" selected="@(ViewBag.PageSize == 500)">500</option>
+        </select>
+    </form>
+    <ul class="pagination justify-content-center m-0">
+        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+            <a class="page-link @(ViewBag.CurrentPage == 1 ? "text-secondary" : "text-danger")" asp-action="Index"
+                asp-route-page="@(ViewBag.CurrentPage - 1)" asp-route-pageSize="@ViewBag.PageSize"><i
+                    class="bi bi-arrow-left"></i></a>
+        </li>
+        @{
+            int totalPages = ViewBag.TotalPages;
+            int currentPage = ViewBag.CurrentPage;
+            int maxPagesToShow = 2; // Máximo de páginas visibles
+            int startPage = Math.Max(1, currentPage - 2);
+            int endPage = Math.Min(totalPages, startPage + maxPagesToShow - 1);
+
+            // Ajustar el rango si el final se sale del total de páginas
+            if (endPage - startPage + 1 < maxPagesToShow)
+            {
+                startPage = Math.Max(1, endPage - maxPagesToShow + 1);
+            }
+        }
+
+        @if (startPage > 1)
+        {
+            <li class="page-item">
+                <a class="page-link text-secondary" asp-action="Index" asp-route-page="1"
+                    asp-route-pageSize="@ViewBag.PageSize">1</a>
+            </li>
+            <li class="page-item disabled">
+                <span class="page-link">..</span>
+            </li>
+        }
+
+        @for (var i = startPage; i <= endPage; i++)
+        {
+            <li class="page-item @(currentPage == i ? "active" : "")">
+                <a class="page-link @(i == currentPage ? "bg-danger text-light" : "text-secondary")" asp-action="Index"
+                    asp-route-page="@i" asp-route-pageSize="@ViewBag.PageSize">@i</a>
+            </li>
+        }
+
+        @if (endPage < totalPages)
+        {
+            <li class="page-item disabled">
+                <span class="page-link">..</span>
+            </li>
+            <li class="page-item">
+                <a class="page-link text-secondary" asp-action="Index" asp-route-page="@totalPages"
+                    asp-route-pageSize="@ViewBag.PageSize">@totalPages</a>
+            </li>
+        }
+
+        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+            <a class="page-link @(ViewBag.CurrentPage == ViewBag.TotalPages ? "text-secondary" : "text-danger")"
+                asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)" asp-route-pageSize="@ViewBag.PageSize"><i
+                    class="bi bi-arrow-right"></i></a>
+        </li>
+    </ul>
+</nav>

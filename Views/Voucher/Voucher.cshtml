@@ -1,0 +1,176 @@
+@model PortalCarrion.Models.ViewModels.VoucherViewModel
+@{
+    Layout = null;
+
+    var incomes = Math.Round(Model.Detalles
+    .Sum(detalle => detalle.RpePercepcion) ?? 0,
+    2);
+
+    var deductions = Math.Round(Model.Detalles
+    .Sum(detalle => detalle.RpeValorDeduccion) ?? 0,
+    2);
+
+    var total = incomes - deductions;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Pago - PortalCarrion</title>
+    <title>Recibo de Pago</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .info {
+            margin-bottom: 20px;
+        }
+
+        .info p {
+            padding-bottom: 5px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th,
+        .table td {
+            border-bottom: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+
+        .totals {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .totals td {
+            padding: 5px;
+        }
+
+        .totals td,
+        .totals th {
+            text-align: right;
+            margin: 0%;
+        }
+
+        .signature {
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .signature th,
+        .signature td {
+            border-top: 1px solid black;
+            padding: 5px;
+        }
+
+        .footer {
+            width: 100%;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>TIENDAS CARRION</h2>
+            <h3>RECIBO DE PAGO</h3>
+            <p>Periodo: @($"{Model.RpeCodpla} del {Model.RpeFechaIni:dd/MM/yyyy} al {Model.RpeFechaFin:dd/MM/yyyy}")</p>
+        </div>
+
+        <div class="info">
+            <p>Nombre: @($"{Model.RpeCodemp} {Model.RpeNombreEmpleado}") </p>
+            <p>Centro de Trabajo: @Model.RpeCentroNombre</p>
+            <p>Plaza: @($"{Model.RpeCodpue} {Model.RpePuesto}")</p>
+            <p>Salario: @Model.RpeSalario</p>
+            <p>Fecha de Ingreso: @($"{Model.RpeFechaIngreso:dd/MM/yyyy}")</p>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>INGRESOS</th>
+                    <th>TIEMPO</th>
+                    <th>MONTO</th>
+                    <th>DEDUCCIONES</th>
+                    <th>DEDUCCION</th>
+                    <th>SALDO</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detalle in Model.Detalles)
+                {
+                    <tr>
+                        <td>@(detalle.RpeNombreTipo ?? "")</td>
+                        <td>@($"{detalle.RpeTiempo} {detalle.RpeUnidadTiempo}")</td>
+                        <td>@(detalle.RpePercepcion != null ? $"{detalle.MonedaPlanilla} {detalle.RpePercepcion}" : "")</td>
+                        <td>@detalle.RpeDescDeduccion</td>
+                        <td>@detalle.RpeValorDeduccion</td>
+                        <td>@detalle.RpeSaldoPrest</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <table class="totals">
+            <thead>
+                <tr>
+                    <th>Total Ingresos</th>
+                    <td>L @incomes</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Total Descuentos</th>
+                    <td>L @deductions</td>
+                </tr>
+
+                <tr>
+                    <th>Neto a Pagar</th>
+                    <td>L @total</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <table class="signature">
+            <tr>
+                <th>Recibí Informe</th>
+                <th>COPIA EMPLEADO (GENERADO en PORTAL CARRION)</th>
+            </tr>
+        </table>
+
+        <table class="footer">
+            <td>@DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")</td>
+            <td style="text-align: right;">Recibo No.@Model.RpeNoRecibo</td>
+    </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+﻿@{
+	ViewData["Title"] = "Ingresar";
+
+	Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 95vh;">
+	@if (ViewBag.ErrorMessage != null)
+	{
+		<div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+	}
+
+	<form id="login" method="post" asp-action="AdminLogin" class="p-5 rounded shadow-lg">
+		<div class="w-100 text-center pb-5">
+			<img src="@Url.Content("~/images/logos/carrion_logo2.png")" alt="Carrion" class="img-fluid">
+		</div>
+		<h1 class="text-center">Modo Administrador</h1>
+
+		<div class="form-group pt-5">
+			<label for="password">Contraseña</label>
+			<input type="password" name="password" id="password" class="form-control" required>
+		</div>
+
+		<button type="submit" class="btn btn-outline-danger mt-5 w-100">Ingresar</button>
+
+		@if (!ViewData.ModelState.IsValid)
+		{
+			<div class="alert alert-danger mt-3">
+				@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+				{
+					@error.ErrorMessage
+				}
+			</div>
+		}
+	</form>
+</div>

@@ -1,0 +1,45 @@
+﻿@model PortalCarrion.Models.ViewModels.UserViewModel
+
+@{
+    ViewData["Title"] = "Desactivar";
+}
+
+<h1>Desactivar</h1>
+
+<h3>¿Seguro que desea desactivar este usuario?</h3>
+<hr />
+
+<div>
+    <dl class="row fs-5">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+    </dl>
+
+    <form asp-action="Disable">
+        <input type="hidden" asp-for="Codigo" />
+        <input type="submit" value="Desactivar" class="btn btn-outline-danger" />
+        <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+    </form>
+</div>

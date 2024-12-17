@@ -1,0 +1,16 @@
+@model dynamic
+
+@{
+    ViewData["Title"] = "Solicitud Exitosa";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center" style="height: 95vh;">
+    <div
+        class="d-flex flex-column justify-content-center align-items-center gap-5 shadow rounded text-center w-75 h-75">
+        <h1>@Model.Title</h1>
+        <i class="bi @Model.Icon fs-1 @Model.Color"></i>
+        <a href="@Url.Action("Login", "Auth")" class=" btn btn-outline-danger">Volver al Inicio</a>
+    </div>
+</div>

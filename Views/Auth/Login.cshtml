@@ -1,0 +1,42 @@
+﻿@{
+	ViewData["Title"] = "Iniciar Sesión";
+
+	Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 95vh;">
+	@if (ViewBag.ErrorMessage != null)
+	{
+		<div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+	}
+
+	<form id="login" method="post" class="p-5 rounded shadow-lg">
+		<div class="w-100 text-center pb-5">
+			<img src="@Url.Content("~/images/logos/carrion_logo2.png")" alt="Carrion" class="img-fluid">
+		</div>
+		<h1 class="text-center">Iniciar Sesión</h1>
+
+		<div class="form-group pt-5">
+			<label for="usr_username">Identidad</label>
+			<input name="usr_username" id="usr_username" class="form-control" required>
+		</div>
+		<div class="form-group pt-5">
+			<label for="usr_password">Contraseña</label>
+			<input type="password" name="usr_password" id="usr_password" class="form-control" required>
+		</div>
+
+		<button type="submit" class="btn btn-outline-danger mt-5 w-100">Iniciar Sesión</button>
+
+		<a asp-action="ForgotPassword" asp-asp-controller="Auth" class="text-right">Olvide mi contraseña</a>
+
+		@if (!ViewData.ModelState.IsValid)
+		{
+			<div class="alert alert-danger mt-3">
+				@foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+				{
+					@error.ErrorMessage
+				}
+			</div>
+		}
+	</form>
+</div>
