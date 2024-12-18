@@ -187,7 +187,31 @@ namespace SolicitudEmpleos2024.Controllers
 			{
 				From = new MailAddress(smtpConfig["Username"]),
 				Subject = "Restablecimiento de Contraseña",
-				Body = $"Haz clic en el siguiente enlace para restablecer tu contraseña: <a href='{resetLink}'>Restablecer Contraseña</a>",
+				Body = $@"
+					<div style='font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;'>
+						<div style='max-width: 600px; margin: auto; background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);'>
+							<h2 style='text-align: center; color: #333333;'>Restablecimiento de Contraseña</h2>
+							<hr style='border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;' />
+							<p style='font-size: 16px; color: #555555; line-height: 1.5;'>
+								Hola, <br /><br />
+								Hemos recibido una solicitud para restablecer tu contraseña en el Portal Carrion. Si realizaste esta solicitud, haz clic en el botón a continuación. 
+								Si no realizaste esta solicitud, puedes ignorar este correo de manera segura.
+							</p>
+							<div style='text-align: center; margin: 20px 0;'>
+								<a href='{resetLink}' class='btn btn-danger  fs-4'
+									style='display: inline-block; padding: 10px 20px; background-color: #e42c28; color: #ffffff; text-decoration: none; border-radius: 5px; font-size: 16px;'>
+									Restablecer Contraseña
+								</a>
+							</div>
+							<p style='font-size: 14px; color: #777777; line-height: 1.5; text-align: center;'>
+								Este enlace expirará automaticamente dentro de 10 minutos. <br />
+							</p>
+							<hr style='border: 0; border-top: 1px solid #eeeeee; margin: 20px 0;' />
+							<p style='font-size: 12px; color: #aaaaaa; text-align: center;'>
+								Este es un correo automático. Por favor, no respondas a este mensaje.
+							</p>
+						</div>
+					</div>",
 				IsBodyHtml = true
 			};
 			message.To.Add(email);
