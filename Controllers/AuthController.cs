@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Net;
 using System.Net.Mail;
 using NuGet.Protocol;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SolicitudEmpleos2024.Controllers
 {
@@ -132,39 +133,40 @@ namespace SolicitudEmpleos2024.Controllers
 		[HttpGet]
 		public IActionResult ForgotPassword()
 		{
-			return View();
+			return View(new ForgotPasswordViewModel { Email = "" });
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> ForgotPassword(string email)
+		public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model, string email)
 		{
-			if (string.IsNullOrWhiteSpace(email))
+			if (ModelState.IsValid)
 			{
-				return BadRequest("El correo es requerido.");
-			}
+				var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrEmail == email);
 
-			var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrEmail == email);
-			if (user == null)
-			{
-				return NotFound("No existe una cuenta asociada a este correo.");
-			}
-
-			var token = Guid.NewGuid().ToString();
-
-			user.UsrTokenResetPwd = token;
-			user.UsrFechaExpToken = DateTime.UtcNow.AddMinutes(10);
-			await _context.SaveChangesAsync();
-
-			var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme); // Replace the Request.Scheme with the production url.
-			await SendResetEmail(email, resetLink!);
-
-			return View("Alert",
-				new
+				if (user == null)
 				{
-					Title = "Se ha enviado un correo con las instrucciones para restablecer la contraseña.",
-					Icon = "bi-info-circle",
-					Color = "text-secondary"
-				});
+					ModelState.AddModelError("", "No existe una cuenta asociada a este correo.");
+				}
+
+				var token = Guid.NewGuid().ToString();
+
+				user.UsrTokenResetPwd = token;
+				user.UsrFechaExpToken = DateTime.UtcNow.AddMinutes(10);
+				await _context.SaveChangesAsync();
+
+				var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme); // Replace the Request.Scheme with the production url.
+				await SendResetEmail(email, resetLink!);
+
+				return View("Alert",
+					new
+					{
+						Title = "Se ha enviado un correo con las instrucciones para restablecer la contraseña.",
+						Icon = "bi-info-circle",
+						Color = "text-secondary"
+					});
+			}
+
+			return View(model);
 		}
 
 		private async Task SendResetEmail(string email, string resetLink)

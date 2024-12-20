@@ -12,7 +12,7 @@ namespace PortalCarrion.Models.ViewModels
         [Display(Name = "Nombre")]
         public string Name { get; set; } = null!;
 
-        [Display(Name = "Correo Electrónico")]
+        [Display(Name = "Correo Electrónico"), Required(ErrorMessage = "Ingrese un correo electrónico"), EmailAddress(ErrorMessage = "Ingrese un correo electrónico válido.")]
         public string? Email { get; set; }
 
         [Display(Name = "Activo")]
