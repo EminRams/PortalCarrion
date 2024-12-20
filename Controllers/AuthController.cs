@@ -97,8 +97,6 @@ namespace SolicitudEmpleos2024.Controllers
 			{
 				var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrUsername == model.UsrUsername);
 
-				Console.WriteLine(user.ToJson());
-
 				if (user == null)
 				{
 					return NotFound();
@@ -119,9 +117,6 @@ namespace SolicitudEmpleos2024.Controllers
 				user.CambioPassPrimerinicio = "si";
 
 				await _context.SaveChangesAsync();
-
-				TempData["SuccessMessage"] = "Contraseña cambiada con exito";
-
 
 				return View("Alert", new
 				{
@@ -160,7 +155,7 @@ namespace SolicitudEmpleos2024.Controllers
 			user.UsrFechaExpToken = DateTime.UtcNow.AddMinutes(10);
 			await _context.SaveChangesAsync();
 
-			var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme);
+			var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme); // Replace the Request.Scheme with the production url.
 			await SendResetEmail(email, resetLink!);
 
 			return View("Alert",
@@ -239,44 +234,48 @@ namespace SolicitudEmpleos2024.Controllers
 		[HttpPost]
 		public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
 		{
-			var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrTokenResetPwd == model.Token);
-			if (user == null || user.UsrFechaExpToken < DateTime.UtcNow)
+			if (ModelState.IsValid)
 			{
+				var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrTokenResetPwd == model.Token);
+				if (user == null || user.UsrFechaExpToken < DateTime.UtcNow)
+				{
+					return View("Alert",
+						new
+						{
+							Title = "El token es inválido o ha expirado.",
+							Icon = "bi-x-circle",
+							Color = "text-danger"
+						});
+				}
+
+				// encrypt password
+				var query = "SELECT dbo.ENCRIPTA_PASS(@UsrPassword)";
+
+				using SqlConnection connection = new SqlConnection(_context.Database.GetConnectionString());
+				connection.Open();
+
+				using SqlCommand command = new SqlCommand(query, connection);
+				command.Parameters.AddWithValue("@UsrPassword", model.NewPassword);
+
+				var result = command.ExecuteScalar();
+				byte[]? encryptedPassword = result as byte[];
+
+				user.UsrPassword = encryptedPassword;
+				user.UsrTokenResetPwd = null;
+				user.UsrFechaExpToken = null;
+
+				await _context.SaveChangesAsync();
+
 				return View("Alert",
 					new
 					{
-						Title = "El token es inválido o ha expirado.",
-						Icon = "bi-x-circle",
-						Color = "text-danger"
+						Title = "Su contraseña ha sido reestablecida correctamente.",
+						Icon = "bi-check-circle",
+						Color = "text-success"
 					});
 			}
 
-			// encrypt password
-			var query = "SELECT dbo.ENCRIPTA_PASS(@UsrPassword)";
-
-			using SqlConnection connection = new SqlConnection(_context.Database.GetConnectionString());
-			connection.Open();
-
-			using SqlCommand command = new SqlCommand(query, connection);
-			command.Parameters.AddWithValue("@UsrPassword", model.NewPassword);
-
-			var result = command.ExecuteScalar();
-			byte[]? encryptedPassword = result as byte[];
-
-			// TempData["SuccessMessage"] = "Contraseña cambiada con exito";
-			user.UsrPassword = encryptedPassword;
-			user.UsrTokenResetPwd = null;
-			user.UsrFechaExpToken = null;
-
-			await _context.SaveChangesAsync();
-
-			return View("Alert",
-				new
-				{
-					Title = "Su contraseña ha sido reestablecida correctamente.",
-					Icon = "bi-check-circle",
-					Color = "text-success"
-				});
+			return View(model);
 		}
 	}
 }

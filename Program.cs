@@ -1,3 +1,5 @@
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using PortalCarrion.Models;
@@ -11,6 +13,8 @@ builder.Services.AddDbContext<DbA55028RecPagoCarrionContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
 	.AddCookie(options =>
@@ -51,8 +55,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Auth}/{action=Login}/{id?}");
+	pattern: "{controller=Home}/{action=Index}/{id?}");
 
-Rotativa.AspNetCore.RotativaConfiguration.Setup("PortalCarrion", "../Rotativa");
+// Rotativa.AspNetCore.RotativaConfiguration.Setup("PortalCarrion", "../Rotativa");
 
 app.Run();

@@ -5,6 +5,10 @@ using PortalCarrion.Models;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Rotativa.AspNetCore;
 using PortalCarrion.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace PortalCarrion.Controllers
 {
@@ -13,10 +17,13 @@ namespace PortalCarrion.Controllers
     {
         private readonly DbA55028RecPagoCarrionContext _context;
         private readonly ICompositeViewEngine _viewEngine;
-        public VoucherController(DbA55028RecPagoCarrionContext context, ICompositeViewEngine viewEngine)
+
+        private readonly IConverter _converter;
+        public VoucherController(DbA55028RecPagoCarrionContext context, ICompositeViewEngine viewEngine, IConverter converter)
         {
             _context = context;
             _viewEngine = viewEngine;
+            _converter = converter;
         }
 
         // GET: Voucher
@@ -137,13 +144,53 @@ namespace PortalCarrion.Controllers
                 Detalles = detallesViewModel,
             };
 
-            // Generar PDF con Rotativa
-            var voucherPdf = new ViewAsPdf("Voucher", voucher)
+            string htmlContent = await RenderViewToStringAsync(this, "Voucher", voucher);
+
+            var doc = new HtmlToPdfDocument
             {
-                FileName = download ? $"Recibo_{id}.pdf" : null,
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait,
+                    Out = null
+                },
+                Objects = {
+                    new ObjectSettings {
+                        HtmlContent = htmlContent,
+                        WebSettings = { DefaultEncoding = "utf-8"}
+                    }
+                }
             };
 
-            return voucherPdf;
+            byte[] pdf = _converter.Convert(doc);
+
+            return File(pdf, "application/pdf", download ? $"Recibo_{id}.pdf" : null);
+
         }
+
+        public async Task<string> RenderViewToStringAsync(Controller controller, string viewName, object model)
+        {
+            controller.ViewData.Model = model;
+
+            using var writer = new StringWriter();
+            var viewResult = _viewEngine.FindView(controller.ControllerContext, viewName, false);
+
+            if (viewResult.View == null)
+            {
+                throw new ArgumentNullException($"La vista '{viewName}' no fue encontrada.");
+            }
+
+            var viewContext = new ViewContext(
+                controller.ControllerContext,
+                viewResult.View,
+                controller.ViewData,
+                controller.TempData,
+                writer,
+                new HtmlHelperOptions()
+            );
+
+            await viewResult.View.RenderAsync(viewContext);
+            return writer.GetStringBuilder().ToString();
+        }
+
     }
 }

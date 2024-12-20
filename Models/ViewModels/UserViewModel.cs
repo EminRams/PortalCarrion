@@ -19,7 +19,7 @@ namespace PortalCarrion.Models.ViewModels
         public bool Active { get; set; }
 
         [Display(Name = "Nueva Contraseña")]
-        [RegularExpression(@"^(?=.*[A-Z]).{8,30}$", ErrorMessage = "La contraseña debe tener almenos una letra mayuscula y teners entre 8 y 30 caracteres.")]
+        [RegularExpression(@"^(?=.*[A-Z]).{8,30}$", ErrorMessage = "La contraseña debe tener almenos una letra mayuscula y tener entre 8 y 30 caracteres.")]
         public string? Password { get; set; }
 
         [Display(Name = "Confirmar Nueva Contraseña")]
