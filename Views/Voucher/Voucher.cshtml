@@ -10,7 +10,7 @@
     .Sum(detalle => detalle.RpeValorDeduccion) ?? 0,
     2);
 
-    var total = incomes - deductions;
+    var total = Math.Round(incomes - deductions, 2);
 }
 
 <!DOCTYPE html>
@@ -132,7 +132,7 @@
                         <td>@($"{detalle.RpeTiempo} {detalle.RpeUnidadTiempo}")</td>
                         <td>@(detalle.RpePercepcion != null ? $"{detalle.MonedaPlanilla} {detalle.RpePercepcion}" : "")</td>
                         <td>@detalle.RpeDescDeduccion</td>
-                        <td>@detalle.RpeValorDeduccion</td>
+                        <td>@($"{detalle.MonedaPlanilla} {detalle.RpeValorDeduccion}")</td>
                         <td>@detalle.RpeSaldoPrest</td>
                     </tr>
                 }

@@ -31,15 +31,21 @@ namespace PortalCarrion.Controllers
         {
             var userClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
+            Console.WriteLine("Claim" + userClaim);
+
             var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrCodigo.ToString() == userClaim);
+
+            Console.WriteLine("Usuario" + user);
 
             var codigoEmpleado = await _context.EusExpedienteUsuarios
                 .Where(e => e.EusCodusr == user!.UsrCodigo)
                 .Select(e => e.CodigoEmp)
                 .FirstOrDefaultAsync();
 
+            Console.WriteLine("CODIGO EMPLEADO" + codigoEmpleado);
+
             var actualVouchers = _context.ReciboPagos
-                .Where(v => v.RpeCodtipo == 315 && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
+                .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
                 .ToList();
 
             var codigoExpediente = actualVouchers
@@ -47,7 +53,7 @@ namespace PortalCarrion.Controllers
                 .FirstOrDefault();
 
             var voucherQuery = _context.ReciboPagos
-                .Where(v => v.RpeCodtipo == 315 && v.RpeCodexp == codigoExpediente)
+                .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodexp == codigoExpediente)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
