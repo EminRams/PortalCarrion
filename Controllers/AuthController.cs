@@ -145,7 +145,8 @@ namespace SolicitudEmpleos2024.Controllers
 
 				if (user == null)
 				{
-					ModelState.AddModelError("", "No existe una cuenta asociada a este correo.");
+					ModelState.AddModelError("Email", "No existe una cuenta asociada a este correo.");
+					return View(model);
 				}
 
 				var token = Guid.NewGuid().ToString();
