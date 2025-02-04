@@ -31,22 +31,18 @@ namespace PortalCarrion.Controllers
         {
             var userClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
-            Console.WriteLine("Claim" + userClaim);
-
             var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrCodigo.ToString() == userClaim);
-
-            Console.WriteLine("Usuario" + user);
 
             var codigoEmpleado = await _context.EusExpedienteUsuarios
                 .Where(e => e.EusCodusr == user!.UsrCodigo)
                 .Select(e => e.CodigoEmp)
                 .FirstOrDefaultAsync();
 
-            Console.WriteLine("CODIGO EMPLEADO" + codigoEmpleado);
-
-            var actualVouchers = _context.ReciboPagos
+            var actualVouchers = await _context.ReciboPagos
                 .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
-                .ToList();
+                .OrderByDescending(v => v.RpeFechaFin)
+                .Take(6)
+                .ToListAsync();
 
             var codigoExpediente = actualVouchers
                 .Select(v => v.RpeCodexp)
@@ -54,6 +50,8 @@ namespace PortalCarrion.Controllers
 
             var voucherQuery = _context.ReciboPagos
                 .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodexp == codigoExpediente)
+                .OrderByDescending(v => v.RpeFechaFin)
+                .Take(6)
                 .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
@@ -72,15 +70,10 @@ namespace PortalCarrion.Controllers
 
             var vouchers = await voucherQuery
                 .OrderByDescending(o => o.RpeFechaFin)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
                 .AsQueryable()
                 .ToListAsync();
 
             ViewBag.SearchQuery = searchQuery;
-            ViewBag.CurrentPage = page;
-            ViewBag.PageSize = pageSize;
-            ViewBag.TotalPages = (int)Math.Ceiling(totalVouchers / (double)pageSize);
 
             return View(vouchers);
         }
@@ -138,7 +131,7 @@ namespace PortalCarrion.Controllers
                 RpeCodpla = reciboPago!.RpeCodpla!,
                 RpeFechaIni = reciboPago.RpeFechaIni,
                 RpeFechaFin = reciboPago.RpeFechaFin,
-                RpeCodemp = reciboPago.RpeCodemp,
+                RpeCodexp = reciboPago.RpeCodexp,
                 RpeNombreEmpleado = reciboPago.RpeNombreEmpleado,
                 RpeCentroNombre = reciboPago.RpeCentroNombre,
                 RpeSalario = reciboPago.RpeSalario,

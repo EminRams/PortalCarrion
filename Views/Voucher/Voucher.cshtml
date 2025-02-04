@@ -106,7 +106,7 @@
         </div>
 
         <div class="info">
-            <p>Nombre: @($"{Model.RpeCodemp} {Model.RpeNombreEmpleado}") </p>
+            <p>Nombre: @($"{Model.RpeCodexp} {Model.RpeNombreEmpleado}") </p>
             <p>Centro de Trabajo: @Model.RpeCentroNombre</p>
             <p>Plaza: @($"{Model.RpeCodpue} {Model.RpePuesto}")</p>
             <p>Salario: @Model.RpeSalario</p>
@@ -161,7 +161,7 @@
 
         <table class="signature">
             <tr>
-                <th>Recibí Informe</th>
+                <th>Recibí Conforme</th>
                 <th>COPIA EMPLEADO (GENERADO en PORTAL CARRION)</th>
             </tr>
         </table>
@@ -169,6 +169,7 @@
         <table class="footer">
             <td>@DateTime.Now.ToString("MM/dd/yyyy h:mm:ss tt")</td>
             <td style="text-align: right;">Recibo No.@Model.RpeNoRecibo</td>
+        </table>
     </div>
     </div>
 </body>

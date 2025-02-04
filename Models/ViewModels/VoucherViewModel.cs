@@ -7,7 +7,7 @@ namespace PortalCarrion.Models.ViewModels
         public string RpeCodpla { get; set; } = null!;
         public DateTime? RpeFechaIni { get; set; }
         public DateTime? RpeFechaFin { get; set; }
-        public int? RpeCodemp { get; set; }
+        public string? RpeCodexp { get; set; }
         public string? RpeNombreEmpleado { get; set; } = null!;
         public string? RpeCentroNombre { get; set; } = null!;
         public double? RpeSalario { get; set; } = null!;
