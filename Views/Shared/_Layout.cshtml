@@ -12,11 +12,15 @@
     <link rel="stylesheet" href="~/PortalCarrion.styles.css" asp-append-version="true" />
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
     <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white box-shadow mb-5 p-0">
+        <nav class="navbar navbar-expand-md navbar-toggleable-md navbar-light bg-white box-shadow mb-5 p-0">
             <div class="container-fluid p-0">
                 <a class="navbar-brand text-danger mh-100 m-0 p-0" asp-area="" asp-controller="Home" asp-action="Index">
                     <img src="@Url.Content("~/images/logos/carrion_logo.webp")" alt="Carrion"
@@ -26,7 +30,7 @@
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-md-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 gap-3 ms-3">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home"

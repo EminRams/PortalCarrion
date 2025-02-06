@@ -2,7 +2,42 @@
     ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Portal Carrion</h1>
-    <p>Bienvenido al portal de pagos de Carrion.</p>
+<div class="d-grid d-md-flex gap-2">
+    <div class="d-flex rounded flex-column gap-2" style="flex: 1;">
+        <div class="d-flex flex-row rounded gap-2" style="flex: 1;">
+            <a asp-controller="UserConfig" asp-action="Edit" class="bento-item p-2 text-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-sliders"
+                    viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1z" />
+                </svg>
+                <h4>Configura tu Información de Usuario</h4>
+            </a>
+            <a asp-controller="Voucher" asp-action="Index" class="bento-item p-2 text-dark">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                    class="bi bi-file-earmark-text-fill" viewBox="0 0 16 16">
+                    <path
+                        d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M4.5 9a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1zM4 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m.5 2.5a.5.5 0 0 1 0-1h4a.5.5 0 0 1 0 1z" />
+                </svg>
+                <h4>Visualiza tus Recibos de Pago</h4>
+            </a>
+        </div>
+        <div class="d-flex flex-row rounded gap-2" style="flex: 1;">
+            <div class="bento-item">
+                <h1>¡Bienvenido al Portal de Vouchers!</h1>
+            </div>
+        </div>
+        <div class="d-flex flex-row rounded gap-2" style="flex: 1;">
+            <div class="bento-item">
+                <img src="@Url.Content("~/images/logos/carrion_logo3.webp")" alt="Carrion" class="bento-logo">
+            </div>
+        </div>
+    </div>
+    <div class="d-flex rounded flex-column gap-2" style="flex: 1;">
+        <div class="d-flex flex-row rounded gap-2" style="flex: 1;">
+            <div class="bento-item">
+                <img src="@Url.Content("~/images/logos/carrion_background.webp")" alt="" class="bento-img">
+            </div>
+        </div>
+    </div>
 </div>
