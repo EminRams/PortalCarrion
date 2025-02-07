@@ -155,7 +155,7 @@ namespace SolicitudEmpleos2024.Controllers
 				user.UsrFechaExpToken = DateTime.UtcNow.AddMinutes(10);
 				await _context.SaveChangesAsync();
 
-				var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme); // Replace the Request.Scheme with the production url.
+				var resetLink = Url.Action("ResetPassword", "Auth", new { token }, Request.Scheme);
 				await SendResetEmail(email, resetLink!);
 
 				return View("Alert",

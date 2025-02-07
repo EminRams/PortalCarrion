@@ -110,21 +110,20 @@ namespace PortalCarrion.Controllers
                 .Where(r => r.RpeCodpla == reciboPago!.RpeCodpla)
                 .ToListAsync();
 
-            // Mapear los datos al ViewModel
             var detallesViewModel = detalles
-           .Select(r => new VoucherItem
-           {
-               RpeCodtipo = r.RpeCodtipo,
-               RpeNombreTipo = r.RpeNombreTipo,
-               RpeTiempo = r.RpeTiempo,
-               RpeUnidadTiempo = r.RpeUnidadTiempo,
-               MonedaPlanilla = r.MonedaPlanilla,
-               RpePercepcion = r.RpePercepcion,
-               RpeDescDeduccion = r.RpeDescDeduccion,
-               RpeValorDeduccion = r.RpeValorDeduccion,
-               RpeSaldoPrest = r.RpeSaldoPrest
-           })
-           .ToList();
+                .Select(r => new VoucherItem
+                {
+                    RpeCodtipo = r.RpeCodtipo,
+                    RpeNombreTipo = r.RpeNombreTipo,
+                    RpeTiempo = r.RpeTiempo,
+                    RpeUnidadTiempo = r.RpeUnidadTiempo,
+                    MonedaPlanilla = r.MonedaPlanilla,
+                    RpePercepcion = r.RpePercepcion,
+                    RpeDescDeduccion = r.RpeDescDeduccion,
+                    RpeValorDeduccion = r.RpeValorDeduccion,
+                    RpeSaldoPrest = r.RpeSaldoPrest
+                })
+                .ToList();
 
             VoucherViewModel voucher = new VoucherViewModel
             {
