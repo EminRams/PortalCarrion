@@ -12,9 +12,5 @@
         <h1>@Model.Title</h1>
         <i class="bi @Model.Icon fs-1 @Model.Color"></i>
         <a href="@Url.Action("Index", "Home")" class=" btn btn-outline-danger">Volver al Inicio</a>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <p>estoy autenticado</p>
-        }
     </div>
 </div>
