@@ -1,21 +1,22 @@
-@model PortalCarrion.Models.ViewModels.ForgotPasswordViewModel
+@model PortalCarrion.Models.ViewModels.SetEmailViewModel
 
 @{
-    ViewData["Title"] = "Recuperar contraseña";
+    ViewData["Title"] = "Añadir Correo Electrónico";
 
     Layout = "~/Views/Shared/_AuthLayout.cshtml";
 }
 
 <div class="d-flex justify-content-center align-items-center" style="height: 95vh;">
-    <form asp-action="ForgotPassword" method="post"
+    <form asp-action="SetEmail" method="post"
         class="p-5 rounded shadow-lg d-flex flex-column justify-content-center align-items-center gap-5">
-        <h2 class="text-center">Restablecer Contraseña</h2>
-        <p for="email" class="text-muted text-center">Ingrese el correo electrónico asociado a su cuenta</p>
+        <h2 class="text-center">Añadir Correo Electrónico</h2>
+        <p for="email" class="text-muted text-center">Ingrese el correo electrónico que desea asociar a su cuenta </p>
+        <input type="hidden" asp-for="UsrUsername" />
         <div class="form-group mb-3 w-100">
             <label asp-for="Email" class="control-label"></label>
             <input type="email" id="email" name="email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-danger w-100">Enviar Enlace</button>
+        <button type="submit" class="btn btn-danger w-100">Añadir</button>
     </form>
 </div>

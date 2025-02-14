@@ -8,8 +8,6 @@ using PortalCarrion.Models.ViewModels;
 using System.Security.Claims;
 using System.Net;
 using System.Net.Mail;
-using NuGet.Protocol;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace SolicitudEmpleos2024.Controllers
 {
@@ -51,7 +49,12 @@ namespace SolicitudEmpleos2024.Controllers
 				{
 					if (!string.IsNullOrEmpty(user.CambioPassPrimerinicio) && user.CambioPassPrimerinicio == "no")
 					{
-						return RedirectToAction("Changepassword", new { usr_username = user.UsrUsername });
+						return RedirectToAction("ChangePassword", new { usr_username = user.UsrUsername });
+					}
+
+					if (string.IsNullOrEmpty(user.UsrEmail))
+					{
+						return RedirectToAction("SetEmail", new { usr_username = user.UsrUsername });
 					}
 
 					var claims = new List<Claim>
@@ -119,9 +122,77 @@ namespace SolicitudEmpleos2024.Controllers
 
 				await _context.SaveChangesAsync();
 
+				if (string.IsNullOrEmpty(user.UsrEmail))
+				{
+					return RedirectToAction("SetEmail", new { usr_username = user.UsrUsername });
+				}
+
+				// Refresh the Session
+				var claimsIdentity = (ClaimsIdentity)User.Identity!;
+				var claims = claimsIdentity.Claims.ToList();
+
+				claims.RemoveAll(c => c.Type == ClaimTypes.Email);
+
+				claims.Add(new Claim(ClaimTypes.Name, user.UsrNombreUsuario));
+				claims.Add(new Claim(ClaimTypes.Email, user.UsrUsername));
+				claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UsrCodigo.ToString()));
+
+				var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+				var principal = new ClaimsPrincipal(identity);
+
+				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
 				return View("Alert", new
 				{
 					Title = "Contraseña Cambiada Correctamente",
+					Icon = "bi-check-circle",
+					Color = "text-success"
+				});
+			}
+
+			return View(model);
+		}
+
+		[HttpGet]
+		public IActionResult SetEmail(string usr_username)
+		{
+			return View(new SetEmailViewModel { UsrUsername = usr_username });
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> SetEmail(SetEmailViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrUsername == model.UsrUsername);
+
+				if (user == null)
+				{
+					return NotFound();
+				}
+
+				user.UsrEmail = model.Email;
+
+				await _context.SaveChangesAsync();
+
+				// Refresh the Session
+				var claimsIdentity = (ClaimsIdentity)User.Identity!;
+				var claims = claimsIdentity.Claims.ToList();
+
+				claims.RemoveAll(c => c.Type == ClaimTypes.Email);
+
+				claims.Add(new Claim(ClaimTypes.Name, user.UsrNombreUsuario));
+				claims.Add(new Claim(ClaimTypes.Email, user.UsrUsername));
+				claims.Add(new Claim(ClaimTypes.NameIdentifier, user.UsrCodigo.ToString()));
+
+				var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+				var principal = new ClaimsPrincipal(identity);
+
+				await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+				return View("Alert", new
+				{
+					Title = "Correo Electrónico Cambiado Correctamente",
 					Icon = "bi-check-circle",
 					Color = "text-success"
 				});
