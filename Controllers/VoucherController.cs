@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PortalCarrion.Models;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Rotativa.AspNetCore;
 using PortalCarrion.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -63,15 +62,17 @@ namespace PortalCarrion.Controllers
                 .Take(6)
                 .ToList();
 
+
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
+                searchQuery = searchQuery.ToLower();
                 vouchers = vouchers.Where(o =>
-                    o.RpeCodpla!.Contains(searchQuery) ||
-                    o.RpeFechaFinLetras!.Contains(searchQuery) ||
-                    o.TplDescripcion!.Contains(searchQuery) ||
-                    o.RpeNombreEmpleado!.Contains(searchQuery) ||
-                    o.RpeNombreEmpresa!.Contains(searchQuery) ||
-                    o.RpePuesto!.Contains(searchQuery)
+                    o.RpeCodpla!.ToLower().Contains(searchQuery) ||
+                    o.RpeFechaFinLetras!.ToLower().Contains(searchQuery) ||
+                    o.TplDescripcion!.ToLower().Contains(searchQuery) ||
+                    o.RpeNombreEmpleado!.ToLower().Contains(searchQuery) ||
+                    o.RpeNombreEmpresa!.ToLower().Contains(searchQuery) ||
+                    o.RpePuesto!.ToLower().Contains(searchQuery)
                 ).ToList();
             }
 

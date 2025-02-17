@@ -55,23 +55,23 @@ namespace SolicitudEmpleos2024.Controllers
                 return RedirectToAction("AdminLogin");
             }
 
-            var usrUsersQuery = _context.UsrUsers.AsQueryable();
+            var usersQuery = _context.UsrUsers.AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                usrUsersQuery = usrUsersQuery.Where(a =>
-                    a.UsrCodigo.ToString().Contains(searchQuery) ||
-                    a.UsrUsername.Contains(searchQuery) ||
-                    a.UsrNombreUsuario.Contains(searchQuery) ||
-                    a.UsrActivo.ToString().Contains(searchQuery) ||
-                    a.UsrEmail.Contains(searchQuery) ||
-                    a.UsrUltimoAcceso.ToString().Contains(searchQuery) ||
-                    a.UsrModoAutenticacion.Contains(searchQuery));
+                searchQuery = searchQuery.ToLower();
+                usersQuery = usersQuery.Where(a =>
+                    a.UsrCodigo.ToString().ToLower().Contains(searchQuery) ||
+                    a.UsrUsername.ToLower().Contains(searchQuery) ||
+                    a.UsrNombreUsuario.ToLower().Contains(searchQuery) ||
+                    a.UsrActivo.ToString().ToLower().Contains(searchQuery) ||
+                    a.UsrEmail.ToLower().Contains(searchQuery) ||
+                    a.UsrModoAutenticacion.ToLower().Contains(searchQuery));
             }
 
             var totalUsers = await _context.UsrUsers.CountAsync();
 
-            var users = await usrUsersQuery
+            var users = await usersQuery
                 .OrderBy(u => u.UsrCodigo == u.UsrCodigo)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -107,6 +107,7 @@ namespace SolicitudEmpleos2024.Controllers
                 Name = user.UsrNombreUsuario,
                 Active = user.UsrActivo,
                 Email = user.UsrEmail,
+                LastAccess = user.UsrUltimoAcceso,
             };
 
             return View(model);
