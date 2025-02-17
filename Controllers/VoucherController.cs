@@ -27,11 +27,13 @@ namespace PortalCarrion.Controllers
         }
 
         // GET: Voucher
-        public async Task<IActionResult> Index(string searchQuery, int pageSize = 10, int page = 1)
+        public async Task<IActionResult> Index(string searchQuery)
         {
             var userClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 
             var user = await _context.UsrUsers.SingleOrDefaultAsync(u => u.UsrCodigo.ToString() == userClaim);
+
+            var salaryTypes = new List<string> { "Salario Ordinario", "Salario Retroactivo", "Reclamo Pendiente", "Incapacidad", "Incapacidad (34%)" };
 
             var codigoEmpleado = await _context.EusExpedienteUsuarios
                 .Where(e => e.EusCodusr == user!.UsrCodigo)
@@ -39,8 +41,10 @@ namespace PortalCarrion.Controllers
                 .FirstOrDefaultAsync();
 
             var actualVouchers = await _context.ReciboPagos
-                .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
+                .Where(v => salaryTypes.Contains(v.RpeNombreTipo) && v.RpeCodemp.ToString() == codigoEmpleado.ToString())
                 .OrderByDescending(v => v.RpeFechaFin)
+                .GroupBy(v => v.RpeFechaIni)
+                .Select(g => g.First())
                 .Take(6)
                 .ToListAsync();
 
@@ -48,30 +52,30 @@ namespace PortalCarrion.Controllers
                 .Select(v => v.RpeCodexp)
                 .FirstOrDefault();
 
-            var voucherQuery = _context.ReciboPagos
-                .Where(v => v.RpeNombreTipo == "Salario Ordinario" && v.RpeCodexp == codigoExpediente)
+            var vouchers = await _context.ReciboPagos
+                .Where(v => salaryTypes.Contains(v.RpeNombreTipo) && v.RpeCodexp == codigoExpediente)
                 .OrderByDescending(v => v.RpeFechaFin)
+                .ToListAsync();
+
+            vouchers = vouchers
+                .GroupBy(v => v.RpeFechaIni)
+                .Select(g => g.First())
                 .Take(6)
-                .AsQueryable();
+                .ToList();
 
             if (!string.IsNullOrWhiteSpace(searchQuery))
             {
-                voucherQuery = voucherQuery.Where(o =>
+                vouchers = vouchers.Where(o =>
                     o.RpeCodpla!.Contains(searchQuery) ||
                     o.RpeFechaFinLetras!.Contains(searchQuery) ||
                     o.TplDescripcion!.Contains(searchQuery) ||
                     o.RpeNombreEmpleado!.Contains(searchQuery) ||
                     o.RpeNombreEmpresa!.Contains(searchQuery) ||
                     o.RpePuesto!.Contains(searchQuery)
-                );
+                ).ToList();
             }
 
-            var totalVouchers = await voucherQuery.CountAsync();
-
-            var vouchers = await voucherQuery
-                .OrderByDescending(o => o.RpeFechaFin)
-                .AsQueryable()
-                .ToListAsync();
+            var totalVouchers = vouchers.Count;
 
             ViewBag.SearchQuery = searchQuery;
 
