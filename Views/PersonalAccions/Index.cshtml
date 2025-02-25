@@ -1,0 +1,75 @@
+﻿@model IEnumerable<PortalCarrion.Models.AccionesPersonal>
+
+@{
+    ViewData["Title"] = "Acciones de Personal";
+}
+
+<div class="d-flex justify-content-between align-items-center my-5">
+    <h1>Acciones de Personal</h1>
+
+    <a class="btn btn-danger" asp-action="Create">Crear</a>
+</div>
+
+<div class="table-responsive border-table">
+    <table class="table table-hover text-justify m-0">
+        <thead class="text-center">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpFechaCreacion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpCodexpEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpNombreEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpCompaniaEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpTiendaEmpleado)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpMotivo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AcpEstado)
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpFechaCreacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpCodexpEmpleado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpNombreEmpleado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpCompaniaEmpleado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpTiendaEmpleado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpMotivo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AcpEstado)
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary m-1" asp-action="Details" asp-route-id="@item.AcpId">Ver</a>
+                        <a class="btn btn-outline-warning m-1" asp-action="Edit" asp-route-id="@item.AcpId">Editar</a>
+                        <a class="btn btn-outline-danger m-1" asp-action="Disable" asp-route-id="@item.AcpId">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,120 @@
+﻿@model PortalCarrion.Models.AccionesPersonal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>AccionesPersonal</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpFechaCreacion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpFechaCreacion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpCodexpEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpCodexpEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNombreEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNombreEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpCompaniaEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpCompaniaEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpTiendaEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpTiendaEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpDepartamentoEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpDepartamentoEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpPuestoEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpPuestoEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpFechaIngresoEmpleado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpFechaIngresoEmpleado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpMotivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpMotivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNuevoSalario)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNuevoSalario)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNuevaTienda)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNuevaTienda)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNuevoDepartamento)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNuevoDepartamento)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNuevoPuesto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNuevoPuesto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpNuevaCondicion)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpNuevaCondicion)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpEstado)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpEstado)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpFechaRigePartir)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpFechaRigePartir)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AcpFechaRigeHasta)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AcpFechaRigeHasta)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.AcpId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

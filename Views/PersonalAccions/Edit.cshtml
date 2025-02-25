@@ -1,0 +1,151 @@
+﻿@model PortalCarrion.Models.AccionesPersonal
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>AccionesPersonal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="AcpId" />
+
+            <div class="row rounded border p-3 m-2 mx-lg-0">
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpFechaCreacion" class="control-label"></label>
+                    <input disabled asp-for="AcpFechaCreacion" class="form-control" />
+                    <span asp-validation-for="AcpFechaCreacion" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpCodexpEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpCodexpEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpCodexpEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpNombreEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpNombreEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpNombreEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpCompaniaEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpCompaniaEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpCompaniaEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpTiendaEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpTiendaEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpTiendaEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpDepartamentoEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpDepartamentoEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpDepartamentoEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpPuestoEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpPuestoEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpPuestoEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpFechaIngresoEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpFechaIngresoEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpFechaIngresoEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpCondicionEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpCondicionEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpCondicionEmpleado" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpSalarioEmpleado" class="control-label"></label>
+                    <input disabled asp-for="AcpSalarioEmpleado" class="form-control" />
+                    <span asp-validation-for="AcpSalarioEmpleado" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row rounded border p-3 m-2 mx-lg-0">
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpNuevoSalario" class="control-label"></label>
+                    <input asp-for="AcpNuevoSalario" class="form-control" />
+                    <span asp-validation-for="AcpNuevoSalario" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpNuevaTienda" class="control-label"></label>
+                    <input asp-for="AcpNuevaTienda" class="form-control" />
+                    <span asp-validation-for="AcpNuevaTienda" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpNuevoDepartamento" class="control-label"></label>
+                    <input asp-for="AcpNuevoDepartamento" class="form-control" />
+                    <span asp-validation-for="AcpNuevoDepartamento" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="AcpNuevoPuesto" class="control-label"></label>
+                    <input asp-for="AcpNuevoPuesto" class="form-control" />
+                    <span asp-validation-for="AcpNuevoPuesto" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="AcpNuevaCondicion" class="control-label"></label>
+                    <input asp-for="AcpNuevaCondicion" class="form-control" />
+                    <span asp-validation-for="AcpNuevaCondicion" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="row border rounded p-3 m-2 mx-lg-0">
+                <div class="form-group col-md-12">
+                    <label asp-for="AcpRazon" class="control-label"></label>
+                    <select asp-for="AcpRazon" class="form-select" id="ReasonSelector" onchange="toggleField()">
+                        <option value="Aumento Salarial">Aumento Salarial</option>
+                        <option value="Bonificación Mensual">Bonificación Mensual</option>
+                        <option value="ACP-Permiso sin goce de sueldo">ACP-Permiso sin goce de sueldo</option>
+                        <option value="APH-Ausente por horas">APH-Ausente por horas</option>
+                        <option value="VAC-Vacaciones">VAC-Vacaciones</option>
+                        <option value="INC-Incapacidad">INC-Incapacidad</option>
+                        <option value="PRE-Prenatal">PRE-Prenatal</option>
+                        <option value="POST-Post natal">POST-Post natal</option>
+                        <option value="DPH-Descanso por horas (Día Completo)">DPH-Descanso por horas (Día Completo)
+                        </option>
+                        <option value="DL-Descanso por libre laborado">DL-Descanso por libre laborado</option>
+                        <option value="DF-Descanso por feriado laborado">DF-Descanso por feriado laborado</option>
+                        <option value="DPL-Descanso por horas de lacancia">DPL-Descanso por horas de lacancia</option>
+                        <option value="Luto">Luto</option>
+                        <option value="AGS-Permiso con goce de sueldo">AGS-Permiso con goce de sueldo</option>
+                        <option value="Cambio de dia libre">Cambio de dia libre</option>
+                        <option value="Cambio de Turno">Cambio de Turno</option>
+                        <option value="Cambio de Departamento">Cambio de Departamento</option>
+                        <option value="Traslado de Tienda">Traslado de Tienda</option>
+                        <option value="Licencia por Matrimonio">Licencia por Matrimonio</option>
+                        <option value="Suspensión (Castigo)">Suspensión (Castigo)</option>
+                        <option value="Lactancia">Lactancia</option>
+                        <option value="Retirado(a)">Retirado(a)</option>
+                        <option value="IHSS-Idas al seguro social no seguro presentó">IHSS-Idas al seguro social no
+                            seguro presentó</option>
+                        <option value="IHSS-Idas al seguro social seguro presentó">IHSS-Idas al seguro social seguro
+                            presentó</option>
+                        <option value="ACD-Cuidados Maternos">ACD-Cuidados Maternos</option>
+                        <option value="Mal Marcaje">Mal Marcaje</option>
+                    </select>
+                    <span asp-validation-for="AcpRazon" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="AcpMotivo" class="control-label"></label>
+                    <textarea asp-for="AcpMotivo" class="form-control"></textarea>
+                    <span asp-validation-for="AcpMotivo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group pt-5">
+                <input type="submit" value="Guardar" class="btn btn-outline-warning" />
+                <a class="btn btn-outline-secondary" asp-action="Index" asp-controller="Home">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

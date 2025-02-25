@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace PortalCarrion.Models;
 
@@ -13,6 +15,10 @@ public partial class DbA55028RecPagoCarrionContext : DbContext
     {
     }
 
+    public virtual DbSet<AccionesPersonal> AccionesPersonals { get; set; }
+
+    public virtual DbSet<Empleado> Empleados { get; set; }
+
     public virtual DbSet<EusExpedienteUsuario> EusExpedienteUsuarios { get; set; }
 
     public virtual DbSet<InformacionCovid> InformacionCovids { get; set; }
@@ -21,8 +27,8 @@ public partial class DbA55028RecPagoCarrionContext : DbContext
 
     public virtual DbSet<UsrUser> UsrUsers { get; set; }
 
-	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-	{
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
         if (!optionsBuilder.IsConfigured)
         {
             var configuration = new ConfigurationBuilder()
@@ -36,9 +42,133 @@ public partial class DbA55028RecPagoCarrionContext : DbContext
 
     }
 
-	protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.UseCollation("Latin1_General_CI_AI");
+
+        modelBuilder.Entity<AccionesPersonal>(entity =>
+        {
+            entity.HasKey(e => e.AcpId).HasName("PK__acciones__4C0C38869918798F");
+
+            entity.ToTable("acciones_personal");
+
+            entity.Property(e => e.AcpId).HasColumnName("acp_id");
+            entity.Property(e => e.AcpCodexpEmpleado)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("acp_codexp_empleado");
+            entity.Property(e => e.AcpCompaniaEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_compania_empleado");
+            entity.Property(e => e.AcpCondicionEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_condicion_empleado");
+            entity.Property(e => e.AcpDepartamentoEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_departamento_empleado");
+            entity.Property(e => e.AcpEstado)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("acp_estado");
+            entity.Property(e => e.AcpFechaCreacion)
+                .HasColumnType("datetime")
+                .HasColumnName("acp_fecha_creacion");
+            entity.Property(e => e.AcpFechaIngresoEmpleado)
+                .HasColumnType("datetime")
+                .HasColumnName("acp_fecha_ingreso_empleado");
+            entity.Property(e => e.AcpFechaRigeHasta)
+                .HasColumnType("datetime")
+                .HasColumnName("acp_fecha_rige_hasta");
+            entity.Property(e => e.AcpFechaRigePartir)
+                .HasColumnType("datetime")
+                .HasColumnName("acp_fecha_rige_partir");
+            entity.Property(e => e.AcpMotivo)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("acp_motivo");
+            entity.Property(e => e.AcpNombreEmpleado)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("acp_nombre_empleado");
+            entity.Property(e => e.AcpNuevaCondicion)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("acp_nueva_condicion");
+            entity.Property(e => e.AcpNuevaTienda)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("acp_nueva_tienda");
+            entity.Property(e => e.AcpNuevoDepartamento)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("acp_nuevo_departamento");
+            entity.Property(e => e.AcpNuevoPuesto)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("acp_nuevo_puesto");
+            entity.Property(e => e.AcpNuevoSalario).HasColumnName("acp_nuevo_salario");
+            entity.Property(e => e.AcpPuestoEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_puesto_empleado");
+            entity.Property(e => e.AcpRazon)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_razon");
+            entity.Property(e => e.AcpSalarioEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_salario_empleado");
+            entity.Property(e => e.AcpTiendaEmpleado)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("acp_tienda_empleado");
+        });
+
+        modelBuilder.Entity<Empleado>(entity =>
+        {
+            entity.HasKey(e => e.EmpId).HasName("PK__empleado__1299A8613BDF3030");
+
+            entity.ToTable("empleados");
+
+            entity.Property(e => e.EmpId).HasColumnName("emp_id");
+            entity.Property(e => e.EmpCondicion)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("emp_condicion");
+            entity.Property(e => e.EmpCodigoAlternativo)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("emp_codigo_alternativo");
+            entity.Property(e => e.EmpCompania)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("emp_compania");
+            entity.Property(e => e.EmpDepartamento)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("emp_departamento");
+            entity.Property(e => e.EmpFechaIngreso)
+                .HasColumnType("datetime")
+                .HasColumnName("emp_fecha_ingreso");
+            entity.Property(e => e.EmpNombre)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("emp_nombre");
+            entity.Property(e => e.EmpPuesto)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("emp_puesto");
+            entity.Property(e => e.EmpSalario).HasColumnName("emp_salario");
+            entity.Property(e => e.EmpTienda)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("emp_tienda");
+            entity.Property(e => e.EmpCodigoUsuario).HasColumnName("emp_codigo_usuario");
+        });
 
         modelBuilder.Entity<EusExpedienteUsuario>(entity =>
         {
